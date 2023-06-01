@@ -20,7 +20,7 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User getUserProfile(String jwt) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
