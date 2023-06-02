@@ -5,18 +5,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.zosh.exceptions.TaskException;
 import com.zosh.modal.Task;
 import com.zosh.modal.User;
 import com.zosh.modal.domain.TasksStatus;
 import com.zosh.repository.TaskRepository;
 
+@Service
 public class TaskServiceImplementation implements TaskService {
 	
 	private TaskRepository taskRepository;
 	
 	public TaskServiceImplementation(TaskRepository taskRepository) {
-		taskRepository=taskRepository;
+		this.taskRepository=taskRepository;
 	}
 
 	@Override
@@ -53,8 +56,11 @@ public class TaskServiceImplementation implements TaskService {
 	public List<Task> getAllTask(String status, String priority,boolean today) {
 		List<Task> tasks=taskRepository.findAll();
 		
+		System.out.println("---------- status - "+status + " task status - "+tasks.get(0).getStatus());
+		System.out.println(" ---- compare "+ tasks.get(0).getStatus().toString().equals(status));
+		
 		if(status!=null) {
-			tasks=tasks.stream().filter(task -> task.getStatus().equals(status)).collect(Collectors.toList());
+			tasks=tasks.stream().filter(task -> task.getStatus().toString().equals(status)).collect(Collectors.toList());
 		}
 		if(priority!=null) {
 			tasks=tasks.stream().filter(task->task.getPriority().equals(priority)).collect(Collectors.toList());

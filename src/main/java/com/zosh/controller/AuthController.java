@@ -50,6 +50,8 @@ public class AuthController {
 	        String password = user.getPassword();
 	        String fullName=user.getFullName();
 	        
+	        System.out.println("email "+email);
+	        
 	        User isEmailExist=userRepository.findByEmail(email);
 
 	        // Check if user with the given email already exists

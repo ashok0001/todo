@@ -1,5 +1,7 @@
 package com.zosh.service;
 
+import org.springframework.stereotype.Service;
+
 import com.zosh.config.JwtTokenProvider;
 import com.zosh.exceptions.UserException;
 import com.zosh.modal.User;
@@ -7,6 +9,7 @@ import com.zosh.repository.UserRepository;
 import com.zosh.request.LoginRequest;
 import com.zosh.request.RegisterRequest;
 
+@Service
 public class UserServiceImplementation implements UserService {
 	
 	private JwtTokenProvider jwtTokenProvider;
@@ -21,10 +24,12 @@ public class UserServiceImplementation implements UserService {
 	public User getUserProfile(String jwt) throws UserException {
 		String email = jwtTokenProvider.getEmailFromToken(jwt);
 		
+		System.out.println("user profile email "+email);
+		
 		User user = userRepository.findByEmail(email);
 		
 		if(user==null) {
-			throw new UserException("user not exist with email "+email);
+			throw new UserException("user not exist with email ------ "+email);
 		}
 		return user;
 	}

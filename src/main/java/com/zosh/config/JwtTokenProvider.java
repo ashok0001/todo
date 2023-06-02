@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.crypto.SecretKey;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class JwtTokenProvider {
 	
 	public String generateJwtToken(Authentication authentication) {
 		
-		
+		System.out.println("generate token - "+authentication.getName()+" ------- "+authentication);
 		
 		String jwt=Jwts.builder().setIssuer("Code With Zosh")
 				.setIssuedAt(new Date())
@@ -37,13 +38,17 @@ public class JwtTokenProvider {
 	}
 	
 	public String getEmailFromToken(String token) {
-		System.out.println("before claims ----------- ");
+		
 
 		token=token.substring(7);
 		
 		Claims claims= Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 		
+		System.out.println("before claims ----------- "+claims);
+		
 		String email= String.valueOf(claims.get("email"));
+		
+		System.out.println("before claims ----------- "+email);
 		
 		return email;
     }
