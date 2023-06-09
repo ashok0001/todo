@@ -14,7 +14,7 @@ public interface TaskService {
 	
 	public List<Task> findTodaysTask(String status);
 	
-	public List<Task> getAllTask(String status, String priority, boolean today);
+	public List<Task> getAllTask(Integer userId,String status, String priority, boolean today);
 	
 	public Task updateTaskStatus(Integer taskId,User user) throws TaskException;
 	

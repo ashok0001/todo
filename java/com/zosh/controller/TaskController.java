@@ -1,5 +1,6 @@
 package com.zosh.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import com.zosh.exceptions.TaskException;
 import com.zosh.exceptions.UserException;
 import com.zosh.modal.Task;
 import com.zosh.modal.User;
+import com.zosh.repository.TaskRepository;
 import com.zosh.response.ApiResponse;
 import com.zosh.service.TaskService;
 import com.zosh.service.UserService;
@@ -29,10 +31,12 @@ public class TaskController {
 	
 	private TaskService taskService;
 	private UserService userService;
+	private TaskRepository taskRepository;
 	
-	public TaskController(TaskService taskService,UserService userService) {
+	public TaskController(TaskService taskService,UserService userService,TaskRepository taskRepository) {
 		this.taskService=taskService;
 		this.userService=userService;
+		this.taskRepository=taskRepository;
 	}
 	
 	@PostMapping("/tasks/create")
@@ -46,16 +50,21 @@ public class TaskController {
 	}
 	
 	@GetMapping("/tasks")
-	public ResponseEntity<List<Task>> getAllTaskHandler(@RequestHeader("Authorization") String jwt,            
+	public ResponseEntity<List<Task>> getAllTaskHandler(@RequestHeader("Authorization") String jwt,          
 			@RequestParam(value = "today", required = false) boolean today,
             @RequestParam(value = "status", required = false) String status,
-            @RequestParam(value = "priority", required = false) String priority) throws UserException{
+            @RequestParam(value = "priority", required = false) String priority
+            ) throws UserException{
 		
 		System.out.println(" today - "+today+" status - "+status +" priority - "+priority);
 		
 		User user =userService.getUserProfile(jwt);
 		
-		List<Task> tasks = taskService.getAllTask(status, priority, today);
+		List<Task> tasks = taskService.getAllTask(user.getId(), status, priority, today);
+		
+//		List<Task> tasks=taskRepository.findAll() ;
+		
+		System.out.println("tasks ---- "+tasks);
 		
 		return new ResponseEntity<>(tasks,HttpStatus.ACCEPTED);
 	}

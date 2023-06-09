@@ -38,10 +38,12 @@ public class AppConfig {
 				CorsConfiguration cfg = new CorsConfiguration();
 				
 				cfg.setAllowedOrigins(Arrays.asList(
-						
+						"http://localhost:8081",
+						"http://localhost:8081/",
 						"http://localhost:3000", 
-						"http://localhost:3001",
-						"https://whatsaap-india.vercel.app"));
+						"http://localhost:8000",
+						"*"
+						));
 				//cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
 				cfg.setAllowedMethods(Collections.singletonList("*"));
 				cfg.setAllowCredentials(true);

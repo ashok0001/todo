@@ -53,8 +53,9 @@ public class TaskServiceImplementation implements TaskService {
 	}
 
 	@Override
-	public List<Task> getAllTask(String status, String priority,boolean today) {
-		List<Task> tasks=taskRepository.findAll();
+	public List<Task> getAllTask(Integer userId,String status, String priority,boolean today) {
+		
+		List<Task> tasks=taskRepository.getUsersTasks(userId);
 		
 		System.out.println("---------- status - "+status + " task status - "+tasks.get(0).getStatus());
 		System.out.println(" ---- compare "+ tasks.get(0).getStatus().toString().equals(status));
